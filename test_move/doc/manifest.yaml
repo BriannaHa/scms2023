@@ -1,0 +1,21 @@
+actions: []
+authors: Brianna Hadiwijaya <brianna.hadiwijaya@student.uts.edu.au>
+brief: ''
+bugtracker: ''
+depends:
+- roslib
+- nav_msgs
+- rosbag
+- roscpp
+- std_msgs
+- sensor_msgs
+- message_runtime
+- catkin
+description: Code for Turtlebot Project
+license: MIT
+maintainers: Brianna Hadiwijaya <brianna.hadiwijaya@student.uts.edu.au>
+msgs: []
+package_type: package
+repo_url: ''
+srvs: []
+url: ''
