@@ -18,6 +18,15 @@
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/PointCloud2.h>
 
+#include "opencv2/core.hpp"
+#include "opencv2/features2d.hpp"
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/highgui.hpp"
+#include <cv_bridge/cv_bridge.h>
+// #include "opencv2/xfeatures2d.hpp"
+
+
+
 class Sample{
     public:
         Sample(ros::NodeHandle nh);
@@ -25,6 +34,8 @@ class Sample{
         // void reachGoal(void);
         // void setGoal(const geometry_msgs::PoseArray::ConstPtr& msg);
         nav_msgs::Odometry getOdometry(void);
+        // sensor_msgs::Image getImage(void);
+        // sensor_msgs::PointCloud2 getDepth(void);
         void odoCallback(const nav_msgs::Odometry::ConstPtr& msg);
         void imageCallback(const sensor_msgs::Image::ConstPtr& msg);
         void depthCallback(const sensor_msgs::PointCloud2::ConstPtr& msg);

@@ -1,6 +1,9 @@
 #include "sample.h"
 #include <cmath>
 
+using namespace cv;
+// using namespace cv::features2d;
+
 Sample::Sample(ros::NodeHandle nh) : goalSet_(false), laserProcessingPtr_(nullptr) {
 
     // subscribers
@@ -45,9 +48,20 @@ void Sample::depthCallback(const sensor_msgs::PointCloud2::ConstPtr& msg) {
 nav_msgs::Odometry Sample::getOdometry(void){
     // a mutex is used to protect the odometry variable when it is being read (cannot be accessed and written to elsewhere)
     std::unique_lock<std::mutex> lck1 (odoMtx_);
-    
     return odo_;
 }
+
+// sensor_msgs::PointCloud2 Sample::getDepth(void){
+//     // a mutex is used to protect the odometry variable when it is being read (cannot be accessed and written to elsewhere)
+//     std::unique_lock<std::mutex> lck1 (depthMtx_);
+//     return depth_;
+// }
+
+// sensor_msgs::Image Sample::getImage(void){
+//     // a mutex is used to protect the odometry variable when it is being read (cannot be accessed and written to elsewhere)
+//     std::unique_lock<std::mutex> lck1 (imageMtx_);
+//     return image_;
+// }
 
 void Sample::test() {
     //init direction that turtlebot should go
@@ -76,6 +90,7 @@ void Sample::test() {
 
         std::unique_lock<std::mutex> lck1(imageMtx_);
         std::unique_lock<std::mutex> lck2(depthMtx_);
+        // LaserProcessing laserProcessing(getImage(), getDepth());
         LaserProcessing laserProcessing(image_, depth_);
         lck1.unlock();
         lck2.unlock();
