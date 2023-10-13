@@ -299,6 +299,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## System dependencies are found with CMake's conventions
 #find_package(Boost REQUIRED COMPONENTS system signals)
 find_package(Eigen3 REQUIRED)
+find_package(OpenCV 3.2.0 REQUIRED)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated -Wdeprecated-declarations")
 set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
@@ -332,6 +333,7 @@ include_directories(
   src
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -348,6 +350,7 @@ add_dependencies(${PROJECT_NAME}_sample ${${PROJECT_NAME}_EXPORTED_TARGETS} ${ca
 
 # Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}_sample ${catkin_LIBRARIES} ${PROJECT_NAME}_laserprocessing)
+target_link_libraries(${PROJECT_NAME}_laserprocessing ${OpenCV_LIBS})
 # target_link_libraries(${PROJECT_NAME}_sample ${catkin_LIBRARIES} controllers)
 
 # #############
