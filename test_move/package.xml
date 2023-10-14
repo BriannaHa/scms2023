@@ -29,11 +29,11 @@
   <run_depend>message_runtime</run_depend>
   <run_depend>turtlebot_bringup</run_depend>
 
-  <!-- NEWLY ADDED
+  <!-- NEWLY ADDED -->
   <build_depend>opencv</build_depend>
-  <build_depend>cv_bridge</build_depend>
+  <!-- <build_depend>cv_bridge</build_depend> -->
   <run_depend>opencv</run_depend>
-  <run_depend>cv_bridge</run_depend> -->
+  <!-- <run_depend>cv_bridge</run_depend> -->
 
 
 </package>
