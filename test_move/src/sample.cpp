@@ -85,7 +85,7 @@ void Sample::test() {
     base_cmd_turn_left.angular.z = 1.57/2; //45 deg/s * 2 sec = 90 degrees 
 
     ros::Rate rate(5); // 5Hz
-    for(int i=0; i<10; i++) { //have we ctrl + C?  If no... keep going!
+    for(int i=0; i<2; i++) { //have we ctrl + C?  If no... keep going!
         //"publish" sends the command to turtlebot to keep going
 
         std::unique_lock<std::mutex> lck1(imageMtx_);
@@ -96,6 +96,10 @@ void Sample::test() {
         lck2.unlock();
 
         laserProcessing.testMessages();
+        base_cmd.linear.x = 0;
+    base_cmd.linear.y = 0;
+    base_cmd.angular.z = 0;
+    pubCmdVel_.publish(base_cmd);
 
         //go forward for 2 seconds
         for(int n=10; n>0; n--) {
@@ -108,6 +112,10 @@ void Sample::test() {
             pubCmdVel_.publish(base_cmd_turn_left);
             rate.sleep();
         }
+        base_cmd.linear.x = 0;
+    base_cmd.linear.y = 0;
+    base_cmd.angular.z = 0;
+    pubCmdVel_.publish(base_cmd);
     }
     base_cmd.linear.x = 0;
     base_cmd.linear.y = 0;

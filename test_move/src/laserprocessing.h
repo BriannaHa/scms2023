@@ -11,18 +11,34 @@
 #include <math.h>
 #include "nav_msgs/Odometry.h"
 
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/imgcodecs.hpp"
+
+using namespace cv;
+using namespace std;
+
 class LaserProcessing {
     public:
         LaserProcessing(sensor_msgs::Image image, sensor_msgs::PointCloud2 depth);
         void testMessages();
         void convertToGreyscale();
         void saveGreyscaleAsPGM(const std::string& filename, const std::vector<uint8_t>& grayscale_image, int width, int height);
+        void cornerHarris_demo( int, void* );
+        static void staticCornerHarris(int value, void* userdata);
     
     private:
         sensor_msgs::Image image_;//!< laser data passed in when an object of this class is initialised
         sensor_msgs::PointCloud2 depth_;
         std::vector<uint8_t> greyscale_image_; //!< the grayscale image (after conversion)
         bool greyscale_image_initialised_; //!<
+
+        Mat src_gray;
+        int thresh = 190;
+        int max_thresh = 255;
+        const char* source_window = "Source image";
+        const char* corners_window = "Corners detected";
+
 };
 
 
