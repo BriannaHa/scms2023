@@ -144,7 +144,22 @@ void LaserProcessing::cornerHarris_demo( int, void* )
             }
         }
     }
-    if(corner_x_coords.size()>3 && corner_x_coords.size()<15) setSquareDetected(true);
+    if(corner_x_coords.size()>3 && corner_x_coords.size()<15) {
+        setSquareDetected(true);
+        x1_ = corner_x_coords[0];
+        y1_ = corner_y_coords[0];
+        for (int i = 1; i < corner_x_coords.size(); i++) {
+            if(corner_x_coords[i]-x1_ > 10) x2_ = corner_x_coords[i];
+        }
+        for (int i = 1; i < corner_y_coords.size(); i++) {
+            if(corner_y_coords[i]-y1_ > 10) y2_ = corner_y_coords[i];
+        }
+        std::cout << "x1: " << x1_ << std::endl;
+        std::cout << "x2: " << x2_ << std::endl;
+        std::cout << "y1: " << y1_ << std::endl;
+        std::cout << "y2: " << y2_ << std::endl;
+    }
+    
     namedWindow( corners_window, WINDOW_AUTOSIZE );
     imshow( corners_window, dst_norm_scaled );
 }

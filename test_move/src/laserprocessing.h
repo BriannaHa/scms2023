@@ -42,7 +42,7 @@ class LaserProcessing {
         std::vector<int> corner_x_coords; // Vector to save x-coordinates of corners
         std::vector<int> corner_y_coords; // Vector to save y-coordinates of corners
         bool squareDetected_;
-
+        int x1_, x2_, y1_, y2_;
 };
 
 
