@@ -121,8 +121,40 @@ void Sample::test() {
     base_cmd.linear.x = 0;
     base_cmd.linear.y = 0;
     base_cmd.angular.z = 0;
+<<<<<<< HEAD
     pubCmdVel_.publish(base_cmd);
 }
+=======
+    base_cmd_turn_left.linear.x = 0; 
+    base_cmd_turn_left.linear.y = 0;
+    base_cmd_turn_left.angular.z = 0;
+
+
+    //and let's go forward by setting X to a positive value
+    base_cmd.linear.x = 0.25;
+    base_cmd.angular.z = 0.0;
+
+    //base_cmd_turn_left will be used to turn turtlebot 90 degrees
+    base_cmd_turn_left.linear.x = 0; //m/s
+    base_cmd_turn_left.angular.z = 1.57/2; //45 deg/s * 2 sec = 90 degrees 
+
+    ros::Rate rate(5); // 5Hz
+    for(int i=0; i<2; i++) { //have we ctrl + C?  If no... keep going!
+        //"publish" sends the command to turtlebot to keep going
+
+        std::unique_lock<std::mutex> lck1(imageMtx_);
+        std::unique_lock<std::mutex> lck2(depthMtx_);
+        // LaserProcessing laserProcessing(getImage(), getDepth());
+        LaserProcessing laserProcessing(image_, depth_);
+        lck1.unlock();
+        lck2.unlock();
+
+        laserProcessing.testMessages();
+        base_cmd.linear.x = 0;
+    base_cmd.linear.y = 0;
+    base_cmd.angular.z = 0;
+    pubCmdVel_.publish(base_cmd);
+>>>>>>> 6cdb1de6623e42a4917dc92f5a3fc18b666c784c
 
 void Sample::findSquare() {
     bool squareFound = false;
@@ -160,6 +192,10 @@ void Sample::findSquare() {
                 rate.sleep();
             }
         }
+        base_cmd.linear.x = 0;
+    base_cmd.linear.y = 0;
+    base_cmd.angular.z = 0;
+    pubCmdVel_.publish(base_cmd);
     }
     
 }
