@@ -67,56 +67,114 @@ void Sample::test() {
     //init direction that turtlebot should go
     geometry_msgs::Twist base_cmd;
     geometry_msgs::Twist base_cmd_turn_left;
+    findSquare();
+    // base_cmd.linear.x = 0;
+    // base_cmd.linear.y = 0;
+    // base_cmd.angular.z = 0;
+    // base_cmd_turn_left.linear.x = 0; 
+    // base_cmd_turn_left.linear.y = 0;
+    // base_cmd_turn_left.angular.z = 0;
 
-    base_cmd.linear.x = 0;
-    base_cmd.linear.y = 0;
-    base_cmd.angular.z = 0;
-    base_cmd_turn_left.linear.x = 0; 
-    base_cmd_turn_left.linear.y = 0;
-    base_cmd_turn_left.angular.z = 0;
 
+    // //and let's go forward by setting X to a positive value
+    // base_cmd.linear.x = 0.25;
+    // base_cmd.angular.z = 0.0;
 
-    //and let's go forward by setting X to a positive value
-    base_cmd.linear.x = 0.25;
-    base_cmd.angular.z = 0.0;
+    // //base_cmd_turn_left will be used to turn turtlebot 90 degrees
+    // base_cmd_turn_left.linear.x = 0; //m/s
+    // base_cmd_turn_left.angular.z = 1.57/2; //45 deg/s * 2 sec = 90 degrees 
 
-    //base_cmd_turn_left will be used to turn turtlebot 90 degrees
-    base_cmd_turn_left.linear.x = 0; //m/s
-    base_cmd_turn_left.angular.z = 1.57/2; //45 deg/s * 2 sec = 90 degrees 
+    // ros::Rate rate(5); // 5Hz
+    // for(int i=0; i<2; i++) { //have we ctrl + C?  If no... keep going!
+    //     //"publish" sends the command to turtlebot to keep going
 
-    ros::Rate rate(5); // 5Hz
-    for(int i=0; i<10; i++) { //have we ctrl + C?  If no... keep going!
-        //"publish" sends the command to turtlebot to keep going
+    //     std::unique_lock<std::mutex> lck1(imageMtx_);
+    //     std::unique_lock<std::mutex> lck2(depthMtx_);
+    //     // LaserProcessing laserProcessing(getImage(), getDepth());
+    //     LaserProcessing laserProcessing(image_, depth_);
+    //     lck1.unlock();
+    //     lck2.unlock();
 
-        std::unique_lock<std::mutex> lck1(imageMtx_);
-        std::unique_lock<std::mutex> lck2(depthMtx_);
-        // LaserProcessing laserProcessing(getImage(), getDepth());
-        LaserProcessing laserProcessing(image_, depth_);
-        lck1.unlock();
-        lck2.unlock();
+    //     bool test = laserProcessing.testMessages();
+    //     cout << "Square detected: " << test << std::endl;
+    //     base_cmd.linear.x = 0;
+    // base_cmd.linear.y = 0;
+    // base_cmd.angular.z = 0;
+    // pubCmdVel_.publish(base_cmd);
 
-        laserProcessing.testMessages();
+    //     //go forward for 2 seconds
+    //     for(int n=10; n>0; n--) {
+    //         pubCmdVel_.publish(base_cmd);
+    //         rate.sleep();
+    //     }
 
-        //go forward for 2 seconds
-        for(int n=10; n>0; n--) {
-            pubCmdVel_.publish(base_cmd);
-            rate.sleep();
-        }
-
-        //turn 90 degrees (takes 2 seconds)
-        for(int n=10; n>0; n--) {
-            pubCmdVel_.publish(base_cmd_turn_left);
-            rate.sleep();
-        }
-    }
+    //     //turn 90 degrees (takes 2 seconds)
+    //     for(int n=10; n>0; n--) {
+    //         pubCmdVel_.publish(base_cmd_turn_left);
+    //         rate.sleep();
+    //     }
+    //     base_cmd.linear.x = 0;
+    // base_cmd.linear.y = 0;
+    // base_cmd.angular.z = 0;
+    // pubCmdVel_.publish(base_cmd);
+    // }
     base_cmd.linear.x = 0;
     base_cmd.linear.y = 0;
     base_cmd.angular.z = 0;
     pubCmdVel_.publish(base_cmd);
 }
 
-void Sample::detectSquare() {
+void Sample::findSquare() {
+    bool squareFound = false;
+    
+    while(!squareFound) {
+        int count = 0;
+        while(!squareFound && count<3) {
+            ros::Rate rate(5);
+            geometry_msgs::Twist base_cmd;
+            base_cmd.linear.x = 0; 
+            base_cmd.linear.y = 0;
+            base_cmd.angular.z = 0; 
+            pubCmdVel_.publish(base_cmd);
+            squareFound = detectSquare();
+            count++;
+            if(!squareFound) {
+                base_cmd.linear.x = 0.01; 
+                base_cmd.linear.y = 0;
+                base_cmd.angular.z = 0; 
+                for(int n=10; n>0; n--) {
+                    pubCmdVel_.publish(base_cmd);
+                    rate.sleep();
+                }
+            }
+        }
 
+        if(!squareFound) {
+            ros::Rate rate(5);
+            geometry_msgs::Twist base_cmd_turn_left;
+            base_cmd_turn_left.linear.x = 0; 
+            base_cmd_turn_left.linear.y = 0;
+            base_cmd_turn_left.angular.z = M_PI_4/2; //45 deg/s * 2 sec = 90 degrees 
+            for(int n=10; n>0; n--) {
+                pubCmdVel_.publish(base_cmd_turn_left);
+                rate.sleep();
+            }
+        }
+    }
+    
+}
+
+bool Sample::detectSquare() {
+    std::unique_lock<std::mutex> lck1(imageMtx_);
+    std::unique_lock<std::mutex> lck2(depthMtx_);
+        // LaserProcessing laserProcessing(getImage(), getDepth());
+    LaserProcessing laserProcessing(image_, depth_);
+    lck1.unlock();
+    lck2.unlock();
+
+    bool test = laserProcessing.testMessages();
+    cout << "Square detected: " << test << std::endl;
+    return test;
 }
 
 void Sample::reachSquare() {

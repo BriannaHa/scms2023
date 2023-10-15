@@ -39,10 +39,11 @@ class Sample{
         void odoCallback(const nav_msgs::Odometry::ConstPtr& msg);
         void imageCallback(const sensor_msgs::Image::ConstPtr& msg);
         void depthCallback(const sensor_msgs::PointCloud2::ConstPtr& msg);
-        void detectSquare();
+        bool detectSquare();
         void reachSquare();
         void travelPerpendicular();
         void test();
+        void findSquare();
     
     private:
         nav_msgs::Odometry odo_;
@@ -66,6 +67,3 @@ class Sample{
 };
 
 #endif // SAMPLE_H
-
-
-
