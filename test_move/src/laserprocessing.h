@@ -24,14 +24,9 @@ class LaserProcessing {
         bool testMessages();
         void convertToGreyscale();
         void saveGreyscaleAsPGM(const std::string& filename, const std::vector<uint8_t>& grayscale_image, int width, int height);
-<<<<<<< HEAD
         void cornerHarris_demo( int, void*);
         static void staticCornerHarris(int value, void* userdata);
         void setSquareDetected(bool squareDetected);
-=======
-        void cornerHarris_demo( int, void* );
-        static void staticCornerHarris(int value, void* userdata);
->>>>>>> 6cdb1de6623e42a4917dc92f5a3fc18b666c784c
     
     private:
         sensor_msgs::Image image_;//!< laser data passed in when an object of this class is initialised
@@ -40,20 +35,13 @@ class LaserProcessing {
         bool greyscale_image_initialised_; //!<
 
         Mat src_gray;
-<<<<<<< HEAD
-        int thresh = 150;
+        int thresh = 190;
         int max_thresh = 255;
         const char* source_window = "Source image";
         const char* corners_window = "Corners detected";
         std::vector<int> corner_x_coords; // Vector to save x-coordinates of corners
         std::vector<int> corner_y_coords; // Vector to save y-coordinates of corners
         bool squareDetected_;
-=======
-        int thresh = 190;
-        int max_thresh = 255;
-        const char* source_window = "Source image";
-        const char* corners_window = "Corners detected";
->>>>>>> 6cdb1de6623e42a4917dc92f5a3fc18b666c784c
 
 };
 

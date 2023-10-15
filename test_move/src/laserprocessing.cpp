@@ -23,11 +23,7 @@ bool LaserProcessing::testMessages() {
     ROS_INFO_STREAM(depth_.header.seq);
     convertToGreyscale();
 
-<<<<<<< HEAD
     return squareDetected_;
-=======
-
->>>>>>> 6cdb1de6623e42a4917dc92f5a3fc18b666c784c
     
 }
 
@@ -117,17 +113,12 @@ void LaserProcessing::saveGreyscaleAsPGM(const std::string& filename, const std:
 }
 
 
-<<<<<<< HEAD
 // ******************************************************
 // ***************** OPENCV ************************
 // ******************************************************
 void LaserProcessing::cornerHarris_demo( int, void* )
 {
     setSquareDetected(false);
-=======
-void LaserProcessing::cornerHarris_demo( int, void* )
-{
->>>>>>> 6cdb1de6623e42a4917dc92f5a3fc18b666c784c
     Mat dst, dst_norm, dst_norm_scaled;
     dst = Mat::zeros( src_gray.size(), CV_32FC1 );
     int blockSize = 2;
@@ -136,11 +127,8 @@ void LaserProcessing::cornerHarris_demo( int, void* )
     cornerHarris( src_gray, dst, blockSize, apertureSize, k, BORDER_DEFAULT );
     normalize( dst, dst_norm, 0, 255, NORM_MINMAX, CV_32FC1, Mat() );
     convertScaleAbs( dst_norm, dst_norm_scaled );
-<<<<<<< HEAD
     corner_x_coords.clear();
     corner_y_coords.clear();
-=======
->>>>>>> 6cdb1de6623e42a4917dc92f5a3fc18b666c784c
     for( int j = 0; j < dst_norm.rows ; j++ )
     {
         for( int i = 0; i < dst_norm.cols; i++ )
@@ -149,20 +137,14 @@ void LaserProcessing::cornerHarris_demo( int, void* )
             {
                 // Print the corner location (coordinates)
                 std::cout << "Corner detected at (" << i << ", " << j << ")" << std::endl;
-<<<<<<< HEAD
                 corner_x_coords.push_back(i);
                 corner_y_coords.push_back(j);
-=======
->>>>>>> 6cdb1de6623e42a4917dc92f5a3fc18b666c784c
 
                 circle( dst_norm_scaled, Point( i, j ), 5, Scalar(0), 2, 8, 0 );
             }
         }
     }
-<<<<<<< HEAD
     if(corner_x_coords.size()>3 && corner_x_coords.size()<15) setSquareDetected(true);
-=======
->>>>>>> 6cdb1de6623e42a4917dc92f5a3fc18b666c784c
     namedWindow( corners_window, WINDOW_AUTOSIZE );
     imshow( corners_window, dst_norm_scaled );
 }
