@@ -17,6 +17,7 @@
 #include "geometry_msgs/PoseArray.h"
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/PointCloud2.h>
+#include "sensor_msgs/CameraInfo.h"
 
 #include "opencv2/core.hpp"
 #include "opencv2/features2d.hpp"
@@ -39,11 +40,13 @@ class Sample{
         void odoCallback(const nav_msgs::Odometry::ConstPtr& msg);
         void imageCallback(const sensor_msgs::Image::ConstPtr& msg);
         void depthCallback(const sensor_msgs::PointCloud2::ConstPtr& msg);
+        void camINFOCallback(const sensor_msgs::CameraInfo::ConstPtr& msg);
         bool detectSquare();
         void reachSquare();
         void travelPerpendicular();
         void test();
         void findSquare();
+        double getYaw(geometry_msgs::Quaternion q);
     
     private:
         nav_msgs::Odometry odo_;
@@ -53,6 +56,7 @@ class Sample{
         ros::Subscriber subGoals_; //!< Subscriber to goals set for the platform
         ros::Subscriber subImages_; //!< Subscriber that subscribes to laser topic
         ros::Subscriber subDepth_; //!< Subscriber that subscribes to laser topic
+        ros::Subscriber subCamINFO_; //!< Subscriber toc camera intrinsic and projection matrices
         std::mutex odoMtx_;
 
         LaserProcessing* laserProcessingPtr_;
@@ -60,10 +64,16 @@ class Sample{
         ros::Publisher pubCmdVel_; //!< Publisher to publish to a topic that commands the quadcopter's velocity
         sensor_msgs::Image image_;//!< Stores laser data received from laser topic locally
         sensor_msgs::PointCloud2 depth_;//!< Stores laser data received from laser topic locally
+        sensor_msgs::CameraInfo camInfo_;
         std::mutex imageMtx_; //!< Mutex to lock Laser Data
         std::mutex depthMtx_;
+        std::mutex cameraINFOMtx_;
 
         bool goalSet_;
+
+        double y_int_, turnAngle_;
+
+        double distance_;
 };
 
 #endif // SAMPLE_H
