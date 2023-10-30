@@ -17,23 +17,23 @@ void LaserProcessing::setSquareDetected(bool squareDetected) {
 }
 
 bool LaserProcessing::testMessages(double& y_int, double& turnAngle, double& distance) {
-    ROS_INFO_STREAM("image test");
-    ROS_INFO_STREAM(image_.header.seq);
-    ROS_INFO_STREAM("depth test");
-    ROS_INFO_STREAM(depth_.header.seq);
+    // ROS_INFO_STREAM("image test");
+    // ROS_INFO_STREAM(image_.header.seq);
+    // ROS_INFO_STREAM("depth test");
+    // ROS_INFO_STREAM(depth_.header.seq);
     convertToGreyscale();
     if(squareDetected_) {
-        ROS_INFO_STREAM("base_cmd_turn_left");
-        ROS_INFO_STREAM(odo_.pose.pose.position.x);
-        ROS_INFO_STREAM(odo_.pose.pose.position.y);
-        ROS_INFO_STREAM(odo_.pose.pose.position.z);
-        ROS_INFO_STREAM(odo_.pose.pose.orientation.x);
-        ROS_INFO_STREAM(odo_.pose.pose.orientation.y);
-        ROS_INFO_STREAM(odo_.pose.pose.orientation.z);
-        ROS_INFO_STREAM(odo_.pose.pose.orientation.w);
+        // ROS_INFO_STREAM("base_cmd_turn_left");
+        // ROS_INFO_STREAM(odo_.pose.pose.position.x);
+        // ROS_INFO_STREAM(odo_.pose.pose.position.y);
+        // ROS_INFO_STREAM(odo_.pose.pose.position.z);
+        // ROS_INFO_STREAM(odo_.pose.pose.orientation.x);
+        // ROS_INFO_STREAM(odo_.pose.pose.orientation.y);
+        // ROS_INFO_STREAM(odo_.pose.pose.orientation.z);
+        // ROS_INFO_STREAM(odo_.pose.pose.orientation.w);
         
-        normalAngleToBot();
-        findNormal();
+        // normalAngleToBot();
+        // findNormal();
         // turnAngle = angleGradient_ - getYaw(odo_.pose.pose.orientation);
         turnAngle = angleParallel_;
 
@@ -76,7 +76,7 @@ void LaserProcessing::convertToGreyscale() {
         return; // No need to convert
     }
     else if (imageEncoding == "rgb8"){
-        ROS_INFO("MUST CONVERT FROM RGB8");
+        // ROS_INFO("MUST CONVERT FROM RGB8");
         // Get image dimensions
         int width = image_.width;
         int height = image_.height;
@@ -114,12 +114,12 @@ void LaserProcessing::convertToGreyscale() {
         greyscale_image_initialised_ = true;
         if (greyscale_image_initialised_){
             saveGreyscaleAsPGM("grayscale_image.pgm", greyscale_image_, width, height);
-            ROS_INFO("CONVERTED");
+            // ROS_INFO("CONVERTED");
         }
         return;
     }
     else{
-    std::cout << "Image Encoding: " << imageEncoding << std::endl;
+    // std::cout << "Image Encoding: " << imageEncoding << std::endl;
     }
 }
 
@@ -411,8 +411,8 @@ void LaserProcessing::normalAngleToBot(){
     // double thetaRad = angle2 - angle1;
     // double thetaDeg = thetaRad*180/M_PI;
 
-    std::cout << "theta: " << thetaRad << "rad" << std::endl;
-    std::cout << "theta: " << thetaDeg << "deg" << std::endl;
+    std::cout << "angle from normal: " << thetaRad << "rad" << std::endl;
+    // std::cout << "theta: " << thetaDeg << "deg" << std::endl;
 
 }
 
@@ -420,7 +420,7 @@ double LaserProcessing::getYaw(geometry_msgs::Quaternion q) {
     double siny_cosp = 2 * (q.w * q.z + q.x * q.y);
     double cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z);
     double yaw = std::atan2(siny_cosp, cosy_cosp);
-     std::cout << "yaw: " << yaw << "rad" << std::endl;
+    //  std::cout << "yaw: " << yaw << "rad" << std::endl;
 
     return yaw;
 }

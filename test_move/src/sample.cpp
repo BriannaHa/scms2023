@@ -78,6 +78,7 @@ void Sample::test() {
     findSquare();
     reachSquare();
     travelPerpendicular();
+
     // base_cmd.linear.x = 0;
     // base_cmd.linear.y = 0;
     // base_cmd.angular.z = 0;
@@ -186,11 +187,11 @@ bool Sample::detectSquare() {
 
     bool test = laserProcessing.testMessages(y_int_, turnAngle_, distance_);
     cout << "Square detected: " << test << std::endl;
-    if(test) {
-        cout << y_int_ << endl;
-        cout << turnAngle_ << endl;
-        cout << distance_ << endl;
-    }
+    // if(test) {
+    //     cout << y_int_ << endl;
+    //     cout << turnAngle_ << endl;
+    //     cout << distance_ << endl;
+    // }
     return test;
 }
 
@@ -208,6 +209,7 @@ void Sample::reachSquare() {
     double squareRot = -0.3;
 
     // Turn Parallel
+    std::cout << "Turning Parallel to Square" << std::endl;
     geometry_msgs::Twist base_cmd_turn_parallel;
     base_cmd_turn_parallel.linear.x = 0; 
     base_cmd_turn_parallel.linear.y = 0;
@@ -216,25 +218,25 @@ void Sample::reachSquare() {
     double rot = squareRot+M_PI;
     while(abs(rot-getYaw(odo_.pose.pose.orientation)) >= 0.5) {
         pubCmdVel_.publish(base_cmd_turn_parallel);
-        ROS_INFO_STREAM(abs(rot-getYaw(odo_.pose.pose.orientation)));
+        // ROS_INFO_STREAM(abs(rot-getYaw(odo_.pose.pose.orientation)));
         // rate.sleep();
     }
     base_cmd_turn_parallel.angular.z = 0.2;
     while(abs(rot-getYaw(odo_.pose.pose.orientation)) >= 0.2) {
         pubCmdVel_.publish(base_cmd_turn_parallel);
-        ROS_INFO_STREAM(abs(rot-getYaw(odo_.pose.pose.orientation)));
+        // ROS_INFO_STREAM(abs(rot-getYaw(odo_.pose.pose.orientation)));
         // rate.sleep();
     }
     base_cmd_turn_parallel.angular.z = 0.05;
     while(abs(rot-getYaw(odo_.pose.pose.orientation)) >= 0.05) {
         pubCmdVel_.publish(base_cmd_turn_parallel);
-        ROS_INFO_STREAM(abs(rot-getYaw(odo_.pose.pose.orientation)));
+        // ROS_INFO_STREAM(abs(rot-getYaw(odo_.pose.pose.orientation)));
         // rate.sleep();
     }
-    base_cmd_turn_parallel.angular.z = 0.01;
+    base_cmd_turn_parallel.angular.z = 0.025;
     while(abs(rot-getYaw(odo_.pose.pose.orientation)) >= 0.005) {
         pubCmdVel_.publish(base_cmd_turn_parallel);
-        ROS_INFO_STREAM(abs(rot-getYaw(odo_.pose.pose.orientation)));
+        // ROS_INFO_STREAM(abs(rot-getYaw(odo_.pose.pose.orientation)));
         // rate.sleep();
     }
 
@@ -244,8 +246,8 @@ void Sample::reachSquare() {
     double m = tan(squareRot);
     double mn = -1/m;
     double b = y-mn*x;
-    ROS_INFO_STREAM(b);
-
+    // ROS_INFO_STREAM(b);
+    std::cout << "Travel to Square Normal" << std::endl;
     geometry_msgs::Twist base_cmd_travel_parallel;
     base_cmd_travel_parallel.linear.x = 0.5; 
     base_cmd_travel_parallel.linear.y = 0;
@@ -259,21 +261,22 @@ void Sample::reachSquare() {
     while(abs(mn*odo_.pose.pose.position.x-odo_.pose.pose.position.y+b) >= 0.2) {
         pubCmdVel_.publish(base_cmd_travel_parallel);
         // rate.sleep();
-        ROS_INFO_STREAM(abs(mn*odo_.pose.pose.position.x-odo_.pose.pose.position.y+b));
+        // ROS_INFO_STREAM(abs(mn*odo_.pose.pose.position.x-odo_.pose.pose.position.y+b));
     }
     base_cmd_travel_parallel.linear.x = 0.05; 
     while(abs(mn*odo_.pose.pose.position.x-odo_.pose.pose.position.y+b) >= 0.05) {
         pubCmdVel_.publish(base_cmd_travel_parallel);
         // rate.sleep();
-        ROS_INFO_STREAM(abs(mn*odo_.pose.pose.position.x-odo_.pose.pose.position.y+b));
+        // ROS_INFO_STREAM(abs(mn*odo_.pose.pose.position.x-odo_.pose.pose.position.y+b));
     }
     base_cmd_travel_parallel.linear.x = 0.005; 
     while(abs(mn*odo_.pose.pose.position.x-odo_.pose.pose.position.y+b) >= 0.005) {
         pubCmdVel_.publish(base_cmd_travel_parallel);
         // rate.sleep();
-        ROS_INFO_STREAM(abs(mn*odo_.pose.pose.position.x-odo_.pose.pose.position.y+b));
+        // ROS_INFO_STREAM(abs(mn*odo_.pose.pose.position.x-odo_.pose.pose.position.y+b));
     }
 
+    std::cout << "Turning to Face Square" << std::endl;
     geometry_msgs::Twist base_cmd_turn_normal;
     base_cmd_turn_normal.linear.x = 0; 
     base_cmd_turn_normal.linear.y = 0;
@@ -286,28 +289,28 @@ void Sample::reachSquare() {
     // }
     while(abs(rot2-getYaw(odo_.pose.pose.orientation)) >= 0.5) {
         pubCmdVel_.publish(base_cmd_turn_normal);
-        ROS_INFO_STREAM(abs(rot2-getYaw(odo_.pose.pose.orientation)));
+        // ROS_INFO_STREAM(abs(rot2-getYaw(odo_.pose.pose.orientation)));
         // rate.sleep();
     }
     base_cmd_turn_normal.angular.z = -0.2;
     while(abs(rot2-getYaw(odo_.pose.pose.orientation)) >= 0.2) {
         pubCmdVel_.publish(base_cmd_turn_normal);
-        ROS_INFO_STREAM(abs(rot2-getYaw(odo_.pose.pose.orientation)));
+        // ROS_INFO_STREAM(abs(rot2-getYaw(odo_.pose.pose.orientation)));
         // rate.sleep();
     }
     base_cmd_turn_normal.angular.z = -0.05;
     while(abs(rot2-getYaw(odo_.pose.pose.orientation)) >= 0.05) {
         pubCmdVel_.publish(base_cmd_turn_normal);
-        ROS_INFO_STREAM(abs(rot2-getYaw(odo_.pose.pose.orientation)));
+        // ROS_INFO_STREAM(abs(rot2-getYaw(odo_.pose.pose.orientation)));
         // rate.sleep();
     }
-    base_cmd_turn_normal.angular.z = -0.01;
+    base_cmd_turn_normal.angular.z = -0.025;
     while(abs(rot2-getYaw(odo_.pose.pose.orientation)) >= 0.005) {
         pubCmdVel_.publish(base_cmd_turn_normal);
-        ROS_INFO_STREAM(abs(rot2-getYaw(odo_.pose.pose.orientation)));
+        // ROS_INFO_STREAM(abs(rot2-getYaw(odo_.pose.pose.orientation)));
         // rate.sleep();
     }
-
+    std::cout << "Ready to Track Square" << std::endl;
     // ros::Rate rate(5);
     // geometry_msgs::Twist base_cmd_travel_normal;
     // base_cmd_travel_normal.linear.x = 2; 
@@ -341,8 +344,8 @@ void Sample::travelPerpendicular() {
     // double currentY = odo_.pose.pose.position.y;
     while(depth > 1.5) {
         pubCmdVel_.publish(base_cmd_travel_normal);
-        ROS_INFO_STREAM(depth);
-        ROS_INFO_STREAM(turnAngle);
+        // ROS_INFO_STREAM(depth);
+        // ROS_INFO_STREAM(turnAngle);
 
         std::unique_lock<std::mutex> lck4(imageMtx_);
         std::unique_lock<std::mutex> lck5(depthMtx_);
