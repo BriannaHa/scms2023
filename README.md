@@ -1,5 +1,10 @@
 # Turtlebot following a straight line by observing a square
 
+## Project 6 - Team 12
+<b>Members</b>
+- Brianna Hadiwijaya (13560002)
+- Katrina Leung (13570181)
+
 ## Project Description
 This project utilises C++ and ROS to control a TurtleBot3 Waffle within a simulated Gazebo environment. Equipped with an RGB camera, the robot is able to locate the four corners of a square and navigate to travel in a straight line perpendicular to the square.
 
