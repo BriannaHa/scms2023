@@ -188,14 +188,6 @@ void LaserProcessing::cornerHarris_demo( int, void* )
     }
     if(corner_x_coords.size()>3 && corner_x_coords.size()<25) {
         setSquareDetected(true);
-        x1_ = corner_x_coords[0];
-        y1_ = corner_y_coords[0];
-        // for (int i = 1; i < corner_x_coords.size(); i++) {
-        //     if(corner_x_coords[i]-x1_ > 10) x2_ = corner_x_coords[i];
-        // }
-        // for (int i = 1; i < corner_y_coords.size(); i++) {
-        //     if(corner_y_coords[i]-y1_ > 10) y2_ = corner_y_coords[i];
-        // }
 
         squareCornersX_.clear();
         squareCornersY_.clear();
@@ -262,7 +254,6 @@ void LaserProcessing::cornerHarris_demo( int, void* )
             std::cout << "bottom right: " << bottomRight_.x << ", " << bottomRight_.y << std::endl;
 
             calculate3DCoords();
-            // calculate3DNormal();
         }
     }
     
@@ -323,26 +314,6 @@ void LaserProcessing::calculate3DCoords() {
     centreGlobal_.z = 0;
 
 }
-
-// void LaserProcessing::calculate3DNormal() {
-//     CoordPoint3D normalVec1 = crossProduct(topLeft3D_ - topRight3D_, bottomRight3D_ - topRight3D_);
-//     CoordPoint3D normalVec2 = crossProduct(bottomRight3D_ - topRight3D_, bottomLeft3D_ - topRight3D_);
-//     CoordPoint3D estimatedNormal = normalize(normalVec1) + normalize(normalVec2);
-//     estimatedNormal = normalize(estimatedNormal);
-    
-//     std::cout << "estimated normal: " << estimatedNormal.x << ", " << estimatedNormal.y << ", " << estimatedNormal.z << std::endl;
-
-// }
-// CoordPoint3D LaserProcessing::crossProduct(const CoordPoint3D& p1, const CoordPoint3D& p2){
-//     double x = p1.y * p2.z - p1.z * p2.y;
-//     double y = p1.z * p2.x - p1.x * p2.z;
-//     double z = p1.x * p2.y - p1.y * p2.x;
-//     CoordPoint3D crossProd;
-//     crossProd.x = x;
-//     crossProd.y = y;
-//     crossProd.z = z;
-//     return crossProd;
-// }
 
 void LaserProcessing::normalAngleToBot(){
     //points for normal1
@@ -423,18 +394,6 @@ double LaserProcessing::getYaw(geometry_msgs::Quaternion q) {
     //  std::cout << "yaw: " << yaw << "rad" << std::endl;
 
     return yaw;
-}
-
-LaserProcessing::CoordPoint3D LaserProcessing::local2Global(LaserProcessing::CoordPoint3D corner, nav_msgs::Odometry odo) {   
-    double yaw = getYaw(odo.pose.pose.orientation);
-    double newX = odo.pose.pose.position.x + corner.x*cos(yaw) - corner.y*sin(yaw);
-    double newY = odo.pose.pose.position.y + corner.x*cos(yaw);
-
-    LaserProcessing::CoordPoint3D p;
-    p.x = newX;
-    p.y = newY;
-    p.z = corner.z;
-    return p;
 }
 
 void LaserProcessing::findNormal() {
