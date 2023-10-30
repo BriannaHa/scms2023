@@ -1,5 +1,10 @@
 # Turtlebot following a straight line by observing a square
 
+## Project 6 - Team 12
+<b>Members</b>
+- Brianna Hadiwijaya (13560002)
+- Katrina Leung (13570181)
+
 ## Project Description
 This project utilises C++ and ROS to control a TurtleBot3 Waffle within a simulated Gazebo environment. Equipped with an RGB camera, the robot is able to locate the four corners of a square and navigate to travel in a straight line perpendicular to the square.
 
@@ -25,7 +30,7 @@ This project uses the Turtlebot3 Waffle. To set this model to use in the simulat
 
 ### Launching The Simulated Environment
 To launch our custom environment:
-1. Copy the files located in the scms2023/turtlebot3_simulations/turtlebot3_gazebo folder within this repository into the corresponding folders in the following directory: <code>catkin_ws/src/turtlebot3_simulations/turtlebot3_gazebo</code>
+1. Copy the files located in the <code>scms2023/turtlebot3_simulations/turtlebot3_gazebo</code> folder within this repository into the corresponding folders in the following directory: <code>catkin_ws/src/turtlebot3_simulations/turtlebot3_gazebo</code>
 2. Ensure the current terminal session is configured to run the new packages by running <code>catkin_make</code>  and <code>source devel/setup.bash</code> in the command window
 3. To launch the environment, run the following command in the terminal: <code>roslaunch turtlebot3_gazebo turtlebot3_test.launch</code>
 
@@ -49,9 +54,9 @@ The code logic is summarised in the flowchart below, and can be broken down into
 
 ### Code Structure
 The code contains three classes, each with distinct functionalities:
-1. The Sample class commands the Turtlebot to move by publishing <code>/geometry_msgs/Twist</code> messages. The Sample class subscribes to the <code>/camera/rgb/image_raw</code> and <code>/odom</code> topics to receive the Turtlebot's sensor data and positional data respectively. When sensor data needs to be processed, the Sample class creates an object of the LaserProcessing class to perform image analysis on captured images. Depending on the output from the functions called by the LaserProcessing object, the Sample class updates the Turtlebot's trajectory by changing the linear x and y velocities as well as the angular z velocty, and publishing these messages to the <code>/cmd_vel</code> topic. Variables and methods have been outlined in the [sample.h](src/sample.h) header file and implemented in the [sample.cpp](src/sample.cpp) file.
-2. The roles of the LaserProcessing class is image processing. The OpenCV library is leveraged to perform Harris Corner Detection on images captured by the Turtlebot. Calculations are then performed within this class to determine the location of detected corners in 3D space using the pinhole camera model. The intrinsic camera parameters were determined by analysing the information displayed when performing <code>rostopic echo /camera/rgb/camera_info</code> in the command terminal. Variables and methods have been outlined in the [laserprocessing.h](src/laserprocessing.h) header file and implemented in the [laserprocessing.cpp](src/laserprocessing.cpp) file.
-3. The main class, locating in the [main.cpp](src/main.cpp) file creates a ROS node. A thread is generated on the function test() defined in the Sample class so that the Turtlebot can run its mission in parallel to the main thread. The thread is joined to ensure that the Turtlebot finishes running before the main shuts down.
+1. The Sample class commands the Turtlebot to move by publishing <code>/geometry_msgs/Twist</code> messages. The Sample class subscribes to the <code>/camera/rgb/image_raw</code> and <code>/odom</code> topics to receive the Turtlebot's sensor data and positional data respectively. When sensor data needs to be processed, the Sample class creates an object of the LaserProcessing class to perform image analysis on captured images. Depending on the output from the functions called by the LaserProcessing object, the Sample class updates the Turtlebot's trajectory by changing the linear x and y velocities as well as the angular z velocty, and publishing these messages to the <code>/cmd_vel</code> topic. Variables and methods have been outlined in the [sample.h](test_move/src/sample.h) header file and implemented in the [sample.cpp](test_move/src/sample.cpp) file.
+2. The roles of the LaserProcessing class is image processing. The OpenCV library is leveraged to perform Harris Corner Detection on images captured by the Turtlebot. Calculations are then performed within this class to determine the location of detected corners in 3D space using the pinhole camera model. The intrinsic camera parameters were determined by analysing the information displayed when performing <code>rostopic echo /camera/rgb/camera_info</code> in the command terminal. Variables and methods have been outlined in the [laserprocessing.h](test_move/src/laserprocessing.h) header file and implemented in the [laserprocessing.cpp](test_move/src/laserprocessing.cpp) file.
+3. The main class, locating in the [main.cpp](test_move/src/main.cpp) file creates a ROS node. A thread is generated on the function test() defined in the Sample class so that the Turtlebot can run its mission in parallel to the main thread. The thread is joined to ensure that the Turtlebot finishes running before the main shuts down.
 
 
 ## Contribution
