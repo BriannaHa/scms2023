@@ -6,26 +6,24 @@ This project utilises C++ and ROS to control a TurtleBot3 Waffle within a simula
 
 ## Simulation Setup
 
-<b>Software Requirements: </b>
+### Software Requirements:
   - Ubuntu 18.04
   - ROS Melodic
   - Gazebo
   - Visual Studio Code or equivalent editor
 
-<b>Required Turtlebot Repositories: </b>
+### Required Turtlebot Repositories:
   - turtlebot3 - https://github.com/ROBOTIS-GIT/turtlebot3.git 
   - turtlebot3_msgs - https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git 
   - turtlebot3_simulation -  https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
 
-<b>Setting the Turtlebot Model: </b>
-
+### Setting the Turtlebot Model:
 This project uses the Turtlebot3 Waffle. To set this model to use in the simulation, edit the bashrc file using the following commands:
 1. In the terminal window type: <code>gedit ~/.bashrc </code>
 2. Add the following line to the bottom of the bashrc file before saving and closing: <code>export TURTLEBOT3_MODEL=waffle </code>
 3. Reload .bashrc by typing the following command in the terminal window: <code>source ~/.bashrc</code>
 
-<b>Launching The Simulated Environment</b>
-
+### Launching The Simulated Environment
 To launch our custom environment:
 1. Copy the files located in the [] zip folder into the corresponding folders in the following directory: <code>catkin_ws/src/turtlebot3_simulations/turtlebot3_gazebo</code>
 2. Ensure the current terminal session is configured to run the new packages by running <code>catkin_make</code>  and <code>source devel/setup.bash</code> in the command window
