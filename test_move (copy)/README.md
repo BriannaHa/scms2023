@@ -24,7 +24,7 @@ This project uses the Turtlebot3 Waffle. To set this model to use in the simulat
 2. Add the following line to the bottom of the bashrc file before saving and closing: <code>export TURTLEBOT3_MODEL=waffle </code>
 3. Reload .bashrc by typing the following command in the terminal window: <code>source ~/.bashrc</code>
 
-<b>Launching the simulated environment</b>
+<b>Launching The Simulated Environment</b>
 
 To launch our custom environment:
 1. Copy the files located in the [] zip folder into the corresponding folders in the following directory: <code>catkin_ws/src/turtlebot3_simulations/turtlebot3_gazebo</code>
@@ -46,7 +46,7 @@ The code logic is summarised in the flowchart below, and can be broken down into
 2. Square localisation: The 3D coordinates of the square in the Turtlebot's local coordinate frane are calculated from the image's pixel coordinates using the camera pinhole method. A local to global calculation is then conducted to convert these coordinates from the Turtlebot's local frame to the world's global coordinate frame.
 3. Calculation of the square's normal: The square's normal is calculated using the cross product on two vectors calculated by subtracint the x, y and z coordinate values of two pairs of corners. The dot product and trigonometry is used to compute the relative angle between the Turtlebot and the square's normal, as well as the perpendicular distance required to reach the square's normal.
 4. Travelling to the square's normal: Once the normal has been computer, the Turtlebot is programmed to rotate to face the normal and travel towards it. Once the Turtlebot reaches the normal, it rotates to face the square, which should be centred on the Turtlebot's camera frame.
-5. Travelling straight perpendicular to the square: THe Turtlebot is then programmed to travel towawrds the normal. While the Turtlebot is travelling, the program constantly calculates the relative angle between the square's centre and the Turtlebot camera's centre. If the difference between these centres exceed a certain threshold, the Turtlebot's angular velocity about the z direction is updated so that the Turtlebot would adjust its trajectory to face the centre of the square. The angle by which the angular trajectory is adjusted is calculated using trigonometry to identify the angle needed to rotate the turtlebot so that the camera's centre would align with the square's centre,
+5. Travelling straight perpendicular to the square: The Turtlebot is then programmed to travel towawrds the normal. While the Turtlebot is travelling, the program constantly calculates the relative angle between the square's centre and the Turtlebot camera's centre. If the difference between these centres exceed a certain threshold, the Turtlebot's angular velocity about the z direction is updated so that the Turtlebot would adjust its trajectory to face the centre of the square. The angle by which the angular trajectory is adjusted is calculated using trigonometry to identify the angle needed to rotate the turtlebot so that the camera's centre would align with the square's centre,
 
 
 ### Code Structure
