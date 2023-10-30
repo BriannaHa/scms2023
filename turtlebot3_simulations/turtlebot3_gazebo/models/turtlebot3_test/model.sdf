@@ -1,0 +1,42 @@
+<sdf version='1.5'>
+    <!-- Draw Circle -->
+    <model name='ros_symbol'>
+      <static>1</static>
+      <link name='symbol'>
+
+        <collision name='square_plane'>
+          <pose>-1 7 0.5 0 0 -0.3</pose>
+          <geometry>
+            <box>
+              <size>0.5 0.01 0.5</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <bounce/>
+            <friction>
+              <ode/>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+          </surface>
+        </collision>
+
+        <visual name='square_plane'>
+          <pose>-1 7 0.5 0 0 -0.3</pose>
+          <geometry>
+            <box>
+              <size>0.5 0.01 0.5</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/White</name>
+            </script>
+          </material>
+        </visual>
+    </link>
+  </model>
+</sdf>
